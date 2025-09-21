@@ -1,60 +1,48 @@
 <x-layoutAdmin>
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h4 class="m-0">Form Tambah Buku</h4>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dataBuku') }}">Data buku</a></li>
-                        <li class="breadcrumb-item active">Form tambah buku</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+            <h4>Tambah Buku</h4>
 
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Input Data Buku</h3>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <form>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>Kode Buku</label>
-                            <input type="text" class="form-control" placeholder="BK001">
-                        </div>
-                        <div class="form-group">
-                            <label>Judul</label>
-                            <input type="text" class="form-control" placeholder="Masukkan judul buku">
-                        </div>
-                        <div class="form-group">
-                            <label>Penulis</label>
-                            <input type="text" class="form-control" placeholder="Masukkan penulis">
-                        </div>
-                        <div class="form-group">
-                            <label>Penerbit</label>
-                            <input type="text" class="form-control" placeholder="Masukkan penerbit">
-                        </div>
-                        <div class="form-group">
-                            <label>Tahun Terbit</label>
-                            <input type="number" class="form-control" placeholder="2023">
-                        </div>
-                        <div class="form-group">
-                            <label>Kategori</label>
-                            <input type="text" class="form-control" placeholder="Masukkan kategori">
-                        </div>
-                        <div class="form-group">
-                            <label>Stok</label>
-                            <input type="number" class="form-control" placeholder="10">
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Simpan</button>
-                        <a href="index.html" class="btn btn-secondary">Batal</a>
-                    </div>
-                </form>
-            </div>
+            @endif
 
+            <form action="{{ route('storeDataBuku') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label>Judul</label>
+                    <input type="text" name="judul" class="form-control" value="{{ old('judul') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Penulis</label>
+                    <input type="text" name="penulis" class="form-control" value="{{ old('penulis') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Penerbit</label>
+                    <input type="text" name="penerbit" class="form-control" value="{{ old('penerbit') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Tahun Terbit</label>
+                    <input type="text" name="tahun_terbit" class="form-control" value="{{ old('tahun_terbit') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Stok</label>
+                    <input type="number" name="stok" class="form-control" value="{{ old('stok') }}">
+                </div>
+
+                <button type="submit" class="btn btn-success">Simpan</button>
+                <a href="{{ route('dataBuku') }}" class="btn btn-secondary">Kembali</a>
+            </form>
         </div>
     </section>
 </x-layoutAdmin>

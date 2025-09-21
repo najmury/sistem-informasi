@@ -6,6 +6,10 @@
                 <i class="fas fa-plus"></i> Tambah Buku
             </a>
 
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Daftar Buku</h3>
@@ -14,76 +18,36 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Kode Buku</th>
                                 <th>Judul</th>
                                 <th>Penulis</th>
                                 <th>Penerbit</th>
-                                <th>Tahun</th>
-                                <th>Kategori</th>
+                                <th>Tahun Terbit</th>
                                 <th>Stok</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($buku as $b)
                             <tr>
-                                <td>1</td>
-                                <td>BK001</td>
-                                <td>Algoritma Dasar</td>
-                                <td>Andi Wijaya</td>
-                                <td>Informatika Press</td>
-                                <td>2022</td>
-                                <td>TI</td>
-                                <td>10</td>
+                                <td>{{ $b->judul }}</td>
+                                <td>{{ $b->penulis }}</td>
+                                <td>{{ $b->penerbit }}</td>
+                                <td>{{ $b->tahun_terbit }}</td>
+                                <td>{{ $b->stok }}</td>
                                 <td>
-                                    <a href="{{ route('editDataBuku') }}" class="btn btn-sm btn-warning"><i
-                                            class="fas fa-edit"></i></a>
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                    <a href="{{ route('editDataBuku', $b->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('deleteDataBuku', $b->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>BK002</td>
-                                <td>Basis Data Lanjut</td>
-                                <td>Budi Santoso</td>
-                                <td>Gramedia</td>
-                                <td>2021</td>
-                                <td>Database</td>
-                                <td>8</td>
-                                <td>
-                                    <a href="{{ route('editDataBuku') }}" class="btn btn-sm btn-warning"><i
-                                            class="fas fa-edit"></i></a>
-                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
-                                        data-target="#modalDelete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <div class="modal fade" id="modalDelete">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        {{-- <form action=""> --}}
-                            <div class="modal-header bg-danger">
-                                <h4 class="modal-title">Konfirmasi Hapus</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Apakah Anda yakin ingin menghapus <b>Buku: Algoritma Dasar</b>?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button class="btn btn-danger">Hapus</button>
-                            </div>
-                        {{-- </form> --}}
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
-
 </x-layoutAdmin>
