@@ -11,10 +11,14 @@
         <ul class="navbar-nav ml-auto">
             <!-- Logout -->
             <li class="nav-item">
-                <a class="nav-link" href="#" role="button">
+                {{-- <a class="nav-link" href="#" role="button">
                     <i class="fas fa-sign-in-alt"></i>
-                </a>
+                </a> --}}
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i></button>
+                </form>
             </li>
-        </ul>
+        </ul>   
     </nav>
     <!-- /.navbar -->

@@ -26,9 +26,9 @@ class AuthController extends Controller
 
             // redirect berdasarkan role
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('dashboard');
+                return redirect()->route('dashboard')->with('success','Selamat Datang admin');
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('dashboard')->with('success','Selamat Datang user');
             }
         }
 
@@ -70,6 +70,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success','Berhasil keluar.');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\StoreAnggotaRequest;
 use App\Http\Requests\UpdateAnggotaRequest;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AnggotaController extends Controller
 {
@@ -22,8 +22,10 @@ class AnggotaController extends Controller
 
     public function store(StoreAnggotaRequest $request)
     {
-        User::create($request->validated());
+        $validated = $request->validated();
+        $validated['password'] = Hash::make($validated['password']);
 
+        User::create($validated);
 
         return redirect()->route('dataAnggota')->with('success', 'Anggota berhasil ditambahkan.');
     }
@@ -37,7 +39,17 @@ class AnggotaController extends Controller
     public function update(UpdateAnggotaRequest $request, $id)
     {
         $anggota = User::findOrFail($id);
-        $anggota->update($request->validated());
+        $validated = $request->validated();
+
+        // Handle password - hanya update jika diisi
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+            unset($validated['password_confirmation']);
+        } else {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        $anggota->update($validated);
 
         return redirect()->route('dataAnggota')->with('success', 'Anggota berhasil diperbarui.');
     }

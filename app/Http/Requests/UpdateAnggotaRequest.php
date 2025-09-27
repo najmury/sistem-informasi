@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAnggotaRequest extends FormRequest
 {
@@ -13,12 +14,18 @@ class UpdateAnggotaRequest extends FormRequest
 
     public function rules(): array
     {
+        $userId = $this->route('id'); // Ambil ID dari route parameter
+
         return [
             'name'    => 'required|string|max:100',
-            'email'   => 'required|email|unique:users,email',
+            'email'   => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($userId)
+            ],
             'alamat'  => 'required|string|max:255',
             'no_telp' => 'required|string|max:15',
-            'password'=> 'required|min:6|confirmed',
+            'password'=> 'nullable|min:6|confirmed',
         ];
     }
 
@@ -32,7 +39,6 @@ class UpdateAnggotaRequest extends FormRequest
             'alamat.required'  => 'Alamat wajib diisi.',
             'no_telp.required' => 'Nomor telepon wajib diisi.',
             'no_telp.string'   => 'Nomor telepon harus berupa teks.',
-            'password.required'=> 'Password wajib diisi.',
             'password.min'     => 'Password minimal 6 karakter.',
             'password.confirmed'=> 'Konfirmasi password tidak cocok.',
         ];

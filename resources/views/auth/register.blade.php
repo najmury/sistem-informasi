@@ -19,7 +19,7 @@
         </div>
       @endif
 
-      <form action="{{ route('register') }}" method="POST">
+      <form action="{{ route('register.post') }}" method="POST">
         @csrf
         <div class="input-group mb-3">
           <input type="text" name="name" class="form-control" placeholder="Full name" value="{{ old('name') }}" required>

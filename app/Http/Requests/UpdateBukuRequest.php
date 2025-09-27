@@ -14,6 +14,7 @@ class UpdateBukuRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'gambar'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Ubah menjadi file upload
             'judul'        => 'required|string|max:255',
             'penulis'      => 'required|string|max:255',
             'penerbit'     => 'required|string|max:255',
@@ -25,6 +26,9 @@ class UpdateBukuRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'gambar.image'          => 'File harus berupa gambar.',
+            'gambar.mimes'          => 'Gambar harus berformat JPG, JPEG, atau PNG.',
+            'gambar.max'            => 'Ukuran gambar maksimal 2MB.',
             'judul.required'        => 'Judul buku wajib diisi.',
             'penulis.required'      => 'Nama penulis wajib diisi.',
             'penerbit.required'     => 'Nama penerbit wajib diisi.',
